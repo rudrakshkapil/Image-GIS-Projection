@@ -7,12 +7,12 @@ Comprises two functions:
 
 from tqdm import tqdm
 import rasterio
-import geopandas as gpd
 import numpy as np
 import matplotlib.pyplot as plt
-from wp_utils import *
-import cv2
+from utils import *
 from pyproj import Proj
+import pandas as pd
+import skimage
 
 
 def img2gis(img_path:str, 

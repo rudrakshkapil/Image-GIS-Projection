@@ -7,12 +7,11 @@ Actual implementation of the projection is found in /projection.py
 """
 
 import argparse
+from ast import literal_eval
 
 from matplotlib import pyplot as plt
-from projection import img2gis, gis2img, get_candidate_img_list, get_extent_of_all_images
-from wp_utils import *
+from projection import *
 from pprint import pprint
-import time
 import shapefile
 import pandas as pd
 import geopandas as gpd
