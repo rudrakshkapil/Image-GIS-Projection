@@ -4,6 +4,17 @@ Python CLI tool to project polygons from an image (e.g. object bounding boxes) t
 [Link to orthomosaic for provided examples](https://drive.google.com/file/d/1bFHmdtsY0fvG47YHJ8e_5pslcQkR7r6U/view?usp=drive_link)
 
 ## Usage
+Required non-standard python packages: rasterio, geopandas, pyproj, numpy, yaml, shapely, pandas, pprint, scikit-image
+
+`
+python main.py --config_file config.yml --img2gis --batch
+`
+* `CFG_PATH`: path to config file
+* `--img2gis`: project image coordinates to shapefile
+* `--gis2img`: project opposite direction
+* `--batch: flag to toggle batch processing
+
+Example for single-image projection of image coordinates to GIS.
 `
 python main.py --config_file config.yml --img2gis --batch
 `
