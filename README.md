@@ -25,14 +25,14 @@ pip install GDAL-3.6.2-cp38-cp38-win_amd64.whl
 ```
 
 5. Install most of the other package requirements using pip, as listed in `requirements.txt`
-```pip
+```bash
 pip install -r requirements.txt
 ```
 
 6. Finally, install shapely (through Conda, not pip to avoid conflicts)
-`
+```Shell
 conda install -y shapely==2.0.1
-`
+```
 
 And now you're done! :)
 
