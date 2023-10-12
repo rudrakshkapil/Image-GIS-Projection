@@ -15,8 +15,7 @@ conda activate img2gis
 2. Download GDAL by going to the following repository: [Christoph Gohlke's Unofficial Windows Binaries for Python Extension Packages](https://github.com/cgohlke/geospatial-wheels/releases/tag/v2023.1.10.1) and downloading the version matching your Windows system (e.g. `GDAL-3.6.2-cp38-cp38-win_amd64.whl`
 for 64 bit AMD computers, already included in this repo). Make sure it says cp38 for python version 3.8.
 
-3. Place the downloaded `.whl` file in this repository (already done for 64 bit AMD computers example). 
-
+3. Place the downloaded `.whl` file in this repository (already done for example above). 
 
 4. Install the file with pip
 ```bash
@@ -26,9 +25,9 @@ pip install GDAL-3.6.2-cp38-cp38-win_amd64.whl
 ```
 
 5. Install most of the other package requirements using pip, as listed in `requirements.txt`
-`
+```pip
 pip install -r requirements.txt
-`
+```
 
 6. Finally, install shapely (through Conda, not pip to avoid conflicts)
 `
