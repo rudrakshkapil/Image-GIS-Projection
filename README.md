@@ -3,22 +3,64 @@ Python CLI tool to project polygons from an image (e.g. object bounding boxes) t
 
 [Link to orthomosaic for provided examples](https://drive.google.com/file/d/1bFHmdtsY0fvG47YHJ8e_5pslcQkR7r6U/view?usp=drive_link)
 
-## Usage
-Required non-standard python packages: rasterio, geopandas, pyproj, numpy, yaml, shapely, pandas, pprint, scikit-image
 
-`
-python main.py --config_file config.yml --img2gis --batch
-`
-* `CFG_PATH`: path to config file
-* `--img2gis`: project image coordinates to shapefile
-* `--gis2img`: project opposite direction
-* `--batch: flag to toggle batch processing
+## Installation Instructions (for Windows)
 
+1. Create conda environment (named `img2gis` here for example) with desired python version – 3.8.13 is strongly recommended as that's what I programmed and tested with. 
+`
+conda create --name img2gis python=3.8.13
+`
+
+2. Install most of the package requirements using pip, as listed in `requirements.txt`
+`
+conda activate img2gis
+pip install -r requirements.txt
+`
+
+3. Download GDAL by going to the following repository: [Christoph Gohlke's Unofficial Windows Binaries for Python Extension Packages](https://github.com/cgohlke/geospatial-wheels/releases/tag/v2023.1.10.1) and downloading the version matching your Windows system (e.g. `GDAL-3.6.2-cp38-cp38-win_amd64.whl`
+for 64 bit AMD computers, already included in this repo). Make sure it says cp38 for python version 3.8.
+
+4. Place the downloaded `.whl` file in this repository (already done for 64 bit AMD computers example). 
+
+5. Install the file with pip
+`
+pip install GDAL-3.6.2-cp38-cp38-win32.whl
+ OR
+pip install GDAL-3.6.2-cp38-cp38-win_amd64.whl
+`
+
+6. Install shapely (through Conda, not pip)
+`
+conda install shapely==2.0.1
+`
+
+And now you're done! :)
+
+Note: for other OS, the only change would be from step 3 onwards, i.e., need to download and install the GDAL, rasterio, and Fiona packages correctly.
+
+
+## Usage Instructions
+`
+usage: main.py [-h] (--img2gis | --gis2img) --config_file CONFIG_FILE [--batch] [--bare_ground]
+
+Image <--> GIS Projection Tool
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --img2gis             Desired direction of projection. Either one of these flags is required
+  --gis2img             Forward: img2gis, Backward: gis2img
+  --config_file CONFIG_FILE
+                        You must provide a path to the config file with the required settings
+  --batch               Toggle for batch vs single image processing
+  --bare_ground         Toggle for using canopy-level points (using DSM) or ground level (using DTM)
+`
+
+##  Example Usage
+For the provided data in `/examples` and the default settings in `config.yml`
 Example for single-image projection of image coordinates to GIS.
 `
 python main.py --config_file config.yml --img2gis --batch
 `
-
 
 
 ### Config File
