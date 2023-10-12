@@ -19,11 +19,11 @@ for 64 bit AMD computers, already included in this repo). Make sure it says cp38
 
 
 4. Install the file with pip
-`
+```bash
 pip install GDAL-3.6.2-cp38-cp38-win32.whl
  OR
 pip install GDAL-3.6.2-cp38-cp38-win_amd64.whl
-`
+```
 
 5. Install most of the other package requirements using pip, as listed in `requirements.txt`
 `
