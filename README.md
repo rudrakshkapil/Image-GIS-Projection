@@ -60,7 +60,7 @@ optional arguments:
 ##  Example Usage
 For the provided data in `/examples` and the default settings in `config.yml`
 Example for single-image projection of image coordinates to GIS.
-```python
+```PowerShell
 python main.py --config_file config.yml --img2gis --batch
 ```
 
