@@ -18,7 +18,7 @@ for 64 bit AMD computers, already included in this repo). Make sure it says cp38
 3. Place the downloaded `.whl` file in this repository (already done for example above). 
 
 4. Install the file with pip
-```PowerShell
+```console
 pip install GDAL-3.6.2-cp38-cp38-win32.whl
  OR
 pip install GDAL-3.6.2-cp38-cp38-win_amd64.whl
