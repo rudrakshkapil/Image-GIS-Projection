@@ -58,6 +58,15 @@ optional arguments:
   --bare_ground         Toggle for using canopy-level points (using DSM) or ground level (using DTM)
 ```
 
+
+### Config File
+
+Settings can be changed in config.yml file, default values are provided for the provided examples. 
+Note that provided DSM should have altitude in the same reference system (geodetic/ellipsoidal) as in the exif headers of the images OR the `cameras.csv`. 
+
+`cameras.csv` can be obtained for a flight from Agisoft and helps provide more precise projection, but can be omitted if not available (leave blank in config file).
+
+
 ##  Example Usage
 
 For the provided data in `/examples` and the default settings in `config.yml`
@@ -66,10 +75,3 @@ Example for single-image projection of image coordinates to GIS.
 python main.py --config_file config.yml --img2gis --batch
 ```
 
-
-### Config File
-
-Settings can be changed in config.yml file, default values are provided for the provided examples. 
-Note that provided DSM should have altitude in the same reference system (geodetic/ellipsoidal) as in the exif headers of the images OR the `cameras.csv`. 
-
-`cameras.csv` can be obtained for a flight from Agisoft and helps provide more precise projection, but can be omitted if not available (leave blank in config file).
