@@ -7,7 +7,7 @@ Python CLI tool to project polygons from an image (e.g. object bounding boxes) t
 ## Installation Instructions (for Windows)
 
 1. Create conda environment (named `img2gis` here for example) with desired python version. **Note**: 3.8.13 is strongly recommended as that's what I programmed and tested with. 
-```console
+```PowerShell
 conda create --name img2gis python=3.8.13
 conda activate img2gis
 ```
@@ -18,7 +18,7 @@ for 64 bit AMD computers, already included in this repo). Make sure it says cp38
 3. Place the downloaded `.whl` file in this repository (already done for example above). 
 
 4. Install the file with pip
-```console
+```PowerShell
 pip install GDAL-3.6.2-cp38-cp38-win32.whl
  OR
 pip install GDAL-3.6.2-cp38-cp38-win_amd64.whl
@@ -41,7 +41,7 @@ And now you're done! :)
 
 ## Usage Instructions
 
-```console
+```PowerShell
 usage: main.py [-h] (--img2gis | --gis2img) --config_file CONFIG_FILE [--batch] [--bare_ground]
 ```
 
