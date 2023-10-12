@@ -40,9 +40,11 @@ And now you're done! :)
 
 
 ## Usage Instructions
-`
+```PowerShell
 usage: main.py [-h] (--img2gis | --gis2img) --config_file CONFIG_FILE [--batch] [--bare_ground]
+```
 
+```Python
 Image <--> GIS Projection Tool
 
 optional arguments:
@@ -53,14 +55,14 @@ optional arguments:
                         You must provide a path to the config file with the required settings
   --batch               Toggle for batch vs single image processing
   --bare_ground         Toggle for using canopy-level points (using DSM) or ground level (using DTM)
-`
+```
 
 ##  Example Usage
 For the provided data in `/examples` and the default settings in `config.yml`
 Example for single-image projection of image coordinates to GIS.
-`
+```Python
 python main.py --config_file config.yml --img2gis --batch
-`
+```
 
 
 ### Config File
