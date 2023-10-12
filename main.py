@@ -1,9 +1,10 @@
 """ 
 Main script implementing the CLI
     Reads arguments, config file, determines which functions to call, 
-    ... reads inputs, calls projection functions as required, creates output file(s). 
-
+    ... reads inputs, calls projection functions as required, creates output file(s).  
 Actual implementation of the projection is found in /projection.py
+
+Author: Rudraksh Kapil, July 2023
 """
 
 import argparse

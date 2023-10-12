@@ -1,9 +1,9 @@
 ExifTool Version Number         : 12.44
-File Name                       : DJI_20230706035613_0586.JPG
-Directory                       : examples/single
+File Name                       : DJI_20230706035611_0583.JPG
+Directory                       : examples/batch
 File Size                       : 25 MB
 File Modification Date/Time     : 2023:08:31 15:48:32-06:00
-File Access Date/Time           : 2023:10:11 18:58:55-06:00
+File Access Date/Time           : 2023:08:31 15:56:17-06:00
 File Creation Date/Time         : 2023:08:31 15:48:32-06:00
 File Permissions                : -rw-rw-rw-
 File Type                       : JPEG
@@ -18,7 +18,7 @@ X Resolution                    : 72
 Y Resolution                    : 72
 Resolution Unit                 : inches
 Software                        : 07.00.01.10
-Modify Date                     : 2023:07:06 03:56:13
+Modify Date                     : 2023:07:06 03:56:11
 Y Cb Cr Positioning             : Co-sited
 Exposure Time                   : 1/1000
 F Number                        : 5.6
@@ -26,8 +26,8 @@ Exposure Program                : Program AE
 ISO                             : 800
 Sensitivity Type                : Recommended Exposure Index
 Exif Version                    : 0230
-Date/Time Original              : 2023:07:06 03:56:13
-Create Date                     : 2023:07:06 03:56:13
+Date/Time Original              : 2023:07:06 03:56:11
+Create Date                     : 2023:07:06 03:56:11
 Components Configuration        : Y, Cb, Cr, -
 Shutter Speed Value             : 1/1000
 Aperture Value                  : 5.6
@@ -46,11 +46,11 @@ AWB Debug Info                  : (Binary data 4096 bytes, use -b option to extr
 AF Debug Info                   : (Binary data 256 bytes, use -b option to extract)
 Histogram                       : disable,
 Xidiri                          : (Binary data 512 bytes, use -b option to extract)
-Gimbal Degree                   : 10,-899,0
-Flight Degree                   : 13,-27,-2
+Gimbal Degree                   : -1797,-899,1800
+Flight Degree                   : 2,-36,-4
 ADJ Debug Info                  : (Binary data 1024 bytes, use -b option to extract)
 Sensor ID                       : 3XMDJ36001916F
-Flight Speed                    : 8,0,0
+Flight Speed                    : 12,0,0
 Hyperlaps Debug Info            : (Binary data 8 bytes, use -b option to extract)
 Flashpix Version                : 0100
 Color Space                     : sRGB
@@ -75,11 +75,11 @@ Lens Info                       : 50mm f/2.8
 Lens Serial Number              : 01KY217G056P
 GPS Version ID                  : 2.3.0.0
 GPS Latitude Ref                : North
-GPS Latitude                    : 53 deg 18' 1.89"
+GPS Latitude                    : 53 deg 18' 1.80"
 GPS Longitude Ref               : West
 GPS Longitude                   : 115 deg 22' 46.88"
 GPS Altitude Ref                : Above Sea Level
-GPS Altitude                    : 981.865 m
+GPS Altitude                    : 981.879 m
 GPS Status                      : Measurement Active
 GPS Map Datum                   : WGS-84
 XP Comment                      : 0.9.142
@@ -89,41 +89,41 @@ X Resolution                    : 72
 Y Resolution                    : 72
 Resolution Unit                 : inches
 Thumbnail Offset                : 25006
-Thumbnail Length                : 14910
+Thumbnail Length                : 14711
 About                           : DJI Meta Data
-Modify Date                     : 2023:07:06 03:56:13
-Create Date                     : 2023:07:06 03:56:13
+Modify Date                     : 2023:07:06 03:56:11
+Create Date                     : 2023:07:06 03:56:11
 Make                            : DJI
 Camera Model Name               : ZenmuseP1
 Format                          : image/jpg
 Version                         : 1.4
 Gps Status                      : RTK
 Altitude Type                   : RtkAlt
-GPS Latitude                    : 53 deg 18' 1.89" N
+GPS Latitude                    : 53 deg 18' 1.80" N
 GPS Longitude                   : 115 deg 22' 46.88" W
-Absolute Altitude               : +981.865
-Relative Altitude               : +50.005
-Gimbal Roll Degree              : +0.00
-Gimbal Yaw Degree               : +1.00
+Absolute Altitude               : +981.879
+Relative Altitude               : +50.002
+Gimbal Roll Degree              : +180.00
+Gimbal Yaw Degree               : -179.70
 Gimbal Pitch Degree             : -89.90
-Flight Roll Degree              : -0.20
-Flight Yaw Degree               : +1.30
-Flight Pitch Degree             : -2.70
-Flight X Speed                  : 0.8
+Flight Roll Degree              : -0.40
+Flight Yaw Degree               : +0.20
+Flight Pitch Degree             : -3.60
+Flight X Speed                  : 1.2
 Flight Y Speed                  : 0.0
 Flight Z Speed                  : 0.0
 Cam Reverse                     : 0
 Gimbal Reverse                  : 0
 Self Data                       : 
 Rtk Flag                        : 50
-Rtk Std Lon                     : 0.00855
-Rtk Std Lat                     : 0.01159
-Rtk Std Hgt                     : 0.02158
-Rtk Diff Age                    : 1.60000
+Rtk Std Lon                     : 0.00862
+Rtk Std Lat                     : 0.01162
+Rtk Std Hgt                     : 0.02229
+Rtk Diff Age                    : 1.40000
 Surveying Mode                  : 1
-UTC At Exposure                 : 2023:07:05 19:56:32.400124
+UTC At Exposure                 : 2023:07:05 19:56:30.046519
 Shutter Type                    : Mechanical
-Shutter Count                   : 3490
+Shutter Count                   : 3487
 Camera Serial Number            : 3XMDJ36001916F
 Lens Serial Number              : 01KY217G056P
 Drone Model                     : Matrice 300 RTK
@@ -137,15 +137,15 @@ Number Of Images                : 2
 MP Image Flags                  : Representative image, Dependent parent image
 MP Image Format                 : JPEG
 MP Image Type                   : Baseline MP Primary Image
-MP Image Length                 : 23463471
+MP Image Length                 : 23585821
 MP Image Start                  : 0
 Dependent Image 1 Entry Number  : 0
 Dependent Image 2 Entry Number  : 2
 MP Image Flags                  : Dependent child image
 MP Image Format                 : JPEG
 MP Image Type                   : Large Thumbnail (VGA equivalent)
-MP Image Length                 : 1123204
-MP Image Start                  : 23471663
+MP Image Length                 : 1124588
+MP Image Start                  : 23594013
 Dependent Image 1 Entry Number  : 0
 Dependent Image 2 Entry Number  : 0
 Image UID List                  : (Binary data 66 bytes, use -b option to extract)
@@ -161,14 +161,14 @@ Image Size                      : 8192x5460
 Megapixels                      : 44.7
 Scale Factor To 35 mm Equivalent: 1.0
 Shutter Speed                   : 1/1000
-Thumbnail Image                 : (Binary data 14910 bytes, use -b option to extract)
+Thumbnail Image                 : (Binary data 14711 bytes, use -b option to extract)
 GPS Altitude                    : 981.8 m Above Sea Level
-GPS Latitude                    : 53 deg 18' 1.89" N
+GPS Latitude                    : 53 deg 18' 1.80" N
 GPS Longitude                   : 115 deg 22' 46.88" W
-Preview Image                   : (Binary data 1123204 bytes, use -b option to extract)
+Preview Image                   : (Binary data 1124588 bytes, use -b option to extract)
 Circle Of Confusion             : 0.030 mm
 Field Of View                   : 39.6 deg
 Focal Length                    : 50.0 mm (35 mm equivalent: 50.0 mm)
-GPS Position                    : 53 deg 18' 1.89" N, 115 deg 22' 46.88" W
+GPS Position                    : 53 deg 18' 1.80" N, 115 deg 22' 46.88" W
 Hyperfocal Distance             : 14.86 m
 Light Value                     : 11.9

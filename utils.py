@@ -1,5 +1,7 @@
 """
 Utility functions for projection, file handling, data manipulation, etc.
+
+Author: Rudraksh Kapil, July 2023
 """
 
 import numpy as np

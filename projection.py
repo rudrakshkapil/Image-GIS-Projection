@@ -3,6 +3,8 @@ Script that implements the core functionality for the projection
 Comprises two functions:
     1. img2gis() for a given image and a given set of points (e.g. one polygon)
     2. gis2img() for a given shapefile and a given image
+
+Author: Rudraksh Kapil, July 2023
 """
 
 from tqdm import tqdm
