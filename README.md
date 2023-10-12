@@ -7,7 +7,7 @@ Python CLI tool to project polygons from an image (e.g. object bounding boxes) t
 ## Installation Instructions (for Windows)
 
 1. Create conda environment (named `img2gis` here for example) with desired python version – 3.8.13 is strongly recommended as that's what I programmed and tested with. 
-```bash
+```PowerShell
 conda create --name img2gis python=3.8.13
 conda activate img2gis
 ```
