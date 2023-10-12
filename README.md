@@ -36,7 +36,7 @@ conda install -y shapely==2.0.1
 
 And now you're done! :)
 
-**Note**: for other OS, the only change would be from step 3 onwards, i.e., need to download and install the GDAL, rasterio, and Fiona packages correctly.
+**Note**: for other OS, the only change would be from steps 2-5 onwards, i.e., need to download and install GDAL correctly.
 
 
 ## Usage Instructions
