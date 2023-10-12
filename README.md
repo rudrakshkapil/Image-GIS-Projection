@@ -7,10 +7,10 @@ Python CLI tool to project polygons from an image (e.g. object bounding boxes) t
 ## Installation Instructions (for Windows)
 
 1. Create conda environment (named `img2gis` here for example) with desired python version – 3.8.13 is strongly recommended as that's what I programmed and tested with. 
-``bash
+```bash
 conda create --name img2gis python=3.8.13
 conda activate img2gis
-``
+```
 
 2. Download GDAL by going to the following repository: [Christoph Gohlke's Unofficial Windows Binaries for Python Extension Packages](https://github.com/cgohlke/geospatial-wheels/releases/tag/v2023.1.10.1) and downloading the version matching your Windows system (e.g. `GDAL-3.6.2-cp38-cp38-win_amd64.whl`
 for 64 bit AMD computers, already included in this repo). Make sure it says cp38 for python version 3.8.
