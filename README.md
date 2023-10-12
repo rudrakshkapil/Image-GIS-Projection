@@ -44,7 +44,7 @@ And now you're done! :)
 usage: main.py [-h] (--img2gis | --gis2img) --config_file CONFIG_FILE [--batch] [--bare_ground]
 ```
 
-```Python
+```python
 Image <--> GIS Projection Tool
 
 optional arguments:
@@ -60,7 +60,7 @@ optional arguments:
 ##  Example Usage
 For the provided data in `/examples` and the default settings in `config.yml`
 Example for single-image projection of image coordinates to GIS.
-```Python
+```python
 python main.py --config_file config.yml --img2gis --batch
 ```
 
