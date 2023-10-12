@@ -40,7 +40,7 @@ And now you're done! :)
 
 
 ## Usage Instructions
-```PowerShell
+```console
 usage: main.py [-h] (--img2gis | --gis2img) --config_file CONFIG_FILE [--batch] [--bare_ground]
 ```
 
