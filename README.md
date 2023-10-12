@@ -30,7 +30,7 @@ pip install -r requirements.txt
 ```
 
 6. Finally, install shapely (through Conda, not pip to avoid conflicts)
-```Shell
+```bash
 conda install -y shapely==2.0.1
 ```
 
