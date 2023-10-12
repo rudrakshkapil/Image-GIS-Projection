@@ -40,6 +40,7 @@ And now you're done! :)
 
 
 ## Usage Instructions
+
 ```console
 usage: main.py [-h] (--img2gis | --gis2img) --config_file CONFIG_FILE [--batch] [--bare_ground]
 ```
@@ -58,6 +59,7 @@ optional arguments:
 ```
 
 ##  Example Usage
+
 For the provided data in `/examples` and the default settings in `config.yml`
 Example for single-image projection of image coordinates to GIS.
 ```PowerShell
@@ -66,6 +68,7 @@ python main.py --config_file config.yml --img2gis --batch
 
 
 ### Config File
+
 Settings can be changed in config.yml file, default values are provided for the provided examples. 
 Note that provided DSM should have altitude in the same reference system (geodetic/ellipsoidal) as in the exif headers of the images OR the `cameras.csv`. 
 
