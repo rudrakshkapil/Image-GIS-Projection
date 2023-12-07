@@ -3,15 +3,18 @@ Script that implements the core functionality for the projection
 Comprises two functions:
     1. img2gis() for a given image and a given set of points (e.g. one polygon)
     2. gis2img() for a given shapefile and a given image
+
+Author: Rudraksh Kapil, July 2023
 """
 
 from tqdm import tqdm
 import rasterio
-import geopandas as gpd
 import numpy as np
 import matplotlib.pyplot as plt
 from utils import *
 from pyproj import Proj
+import pandas as pd
+import skimage
 
 
 def img2gis(img_path:str, 
@@ -557,6 +560,9 @@ def img2gis_batch(img_path:str,
 
     # return
     return curr_poly, dist
+
+
+
 
 def gis2img(img_path:str, 
             poly:np.array([np.uint16]), 

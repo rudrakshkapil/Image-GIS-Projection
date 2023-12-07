@@ -1,26 +1,21 @@
 """ 
 Main script implementing the CLI
     Reads arguments, config file, determines which functions to call, 
-    ... reads inputs, calls projection functions as required, creates output file(s). 
-
+    ... reads inputs, calls projection functions as required, creates output file(s).  
 Actual implementation of the projection is found in /projection.py
+
+Author: Rudraksh Kapil, July 2023
 """
-import os
-del os.environ['PROJ_LIB']
+
 import argparse
-from osgeo import gdal
-import geopandas as gpd
+from ast import literal_eval
 
 from matplotlib import pyplot as plt
-from projection import img2gis, gis2img, get_candidate_img_list, get_extent_of_all_images
-from utils import *
+from projection import *
 from pprint import pprint
-import time
 import shapefile
 import pandas as pd
-
-import shapely
-# shapely.speedups.disable()
+import geopandas as gpd
 from shapely.geometry import mapping
 import rasterio
 
@@ -138,14 +133,11 @@ def batch_img2gis(cfg):
         points = np.vstack([center, points])
 
         # get current img_path
-        img_path = f"{row['img_path']}"
+        img_path = f"{img_dir}/{row['img_path']}"
         box_id = row['box_id']
         
         # project to GIS
         curr_poly, dist = img2gis(img_path, points, dsm, dsm_arr, cfg) 
-        # ERROR: skip and report at the end
-        if curr_poly == -1:
-            continue
 
         # add to shapefile
         w.poly([curr_poly.tolist()[1:]])
