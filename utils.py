@@ -9,7 +9,6 @@ import os
 import skimage.io
 from pyproj import CRS,  Proj, transform
 import urllib.request
-from osgeo import gdal
 import shutil
 from tqdm import tqdm
 import yaml
