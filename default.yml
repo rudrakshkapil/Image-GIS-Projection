@@ -56,18 +56,22 @@ gis2img:
 # Default information is for a DJI P1 as an example
 # If distortion parameters unknown, leave blank, but the first FIVE MUST be given. 
 camera_calibration:
-  sw: 0.0360448        # ---> sensor_width       (meters)
-  sh: 0.024024         # ---> sensor_height      (meters)
-  f : 11018.8          # ---> focal_length       (pixels)
-  cx: -10.8655         # -+-> principal point    (pixels, exact center would be 0,0)
-  cy: 23.1932          # _|
-  k1: -0.00584836      # -+-> radial distortions
-  k2: -0.274308        #  |
-  k3: -0.417769        #  |
+  sw: 0.0360448        # ---> sensor_width       (in meters), can be calculated as sensor_width (in m/pixel) * img_width (in pixels)
+  sh: 0.024024         # ---> sensor_height      (in meters)
+  f : 11017.3          # ---> focal_length       (in pixels)
+  cx: -6.35398         # ---> principal point x  (in pixels from image center, exact center would be 0)
+  cy: 22.0852          # ---> principal point y  (in pixels from image center, exact center would be 0)
+  k1: -0.00761618      # -+-> radial distortions
+  k2: -0.245679        #  |
+  k3: -0.520738        #  |
   k4: 0.0              # _|
-  p1: -0.000460076     # -+-> tangential distortions
-  p2: 0.000393682      # _|
-  b1: 0         # -+-> skew
-  b2: 0        # _|
+  p1: -0.000425435     # -+-> tangential distortions
+  p2: 0.000371409      # _|
+  b1: -8.81372         # -+-> skew
+  b2: -0.708353        # _|
 
+  # get the following from the EXIF header of any image in the dataset:
+  image_height: 5460   # in pixels
+  image_width: 8192    # in pixels
+  focal: 0.05          # focal length in meters (usually 50mm)
 

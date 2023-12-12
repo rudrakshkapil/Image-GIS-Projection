@@ -1,0 +1,2 @@
+img_name, total_skipped, boxIDs
+DJI_20230816113245_0091.JPG, 2, [6, 17]

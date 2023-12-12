@@ -6,16 +6,26 @@ Actual implementation of the projection is found in /projection.py
 
 Author: Rudraksh Kapil, July 2023
 """
-
-import argparse
 from ast import literal_eval
+from collections import OrderedDict, defaultdict
+import os
+
+import skimage
+del os.environ['PROJ_LIB']
+import argparse
+from osgeo import gdal
+import geopandas as gpd
 
 from matplotlib import pyplot as plt
-from projection import *
+from projection import img2gis, gis2img, get_candidate_img_list, get_extent_of_all_images
+from utils import *
 from pprint import pprint
 import shapefile
 import pandas as pd
-import geopandas as gpd
+from tqdm import tqdm
+
+import shapely
+# shapely.speedups.disable()
 from shapely.geometry import mapping
 import rasterio
 
@@ -42,19 +52,32 @@ def single_img2gis(cfg):
     try: dsm_epsg = int(str(dsm.crs)[5:])
     except: exit("Error: DSM does not seem to have CRS information. Chcek and try again")
     
-
     # get output file path and make enclosing dir if not exists
-    output_file = f"{cfg['paths']['single_cfg']['img2gis']['out_shp']}"
+    output_file = f"{cfg['paths']['batch_cfg']['img2gis']['out_shp']}"
     if not os.path.exists(os.path.dirname(output_file)):
         os.makedirs(os.path.dirname(output_file))
 
-    # create output file(s)
-    w = shapefile.Writer(output_file, shapefile.POLYGON)
-    w.field('id','C','40')
-    if cfg['centroids']:
-        w_centroid = shapefile.Writer(output_file+'_centroids', shapefile.POINT)
-        w_centroid.field('id','C','40')
+    # get column names and types from dataframe
+    defaults = {'id': ('N','20'), 'img_path':('C','80'), 'box_id': ('C','20'), 'prediction':('C','20'), 'confidence':('F','20',4)}
+    cols = []
+    for c in points_df.columns:
+        if c in defaults: cols.append((c,*defaults[c]))
+        else: cols.append((c,'C','40'))
 
+    # create output file(s) with required cols 
+    w = shapefile.Writer(output_file, shapefile.POLYGON)
+    for col in cols:
+        if col[0] == 'geometry': 
+            w.field('img_coords', 'C', '40') # geometry is a reserved header, so change field name
+        else: w.field(*col)                  # add other field normally
+    # + extra fields
+    w.field('distance_to_img_center', 'F', decimal=3)
+
+    # make skipped log - each line: img_id, total in this image, box_ids (list); Last line -> total in all
+    open("output/log_skipped.txt", "w")
+    skipped_dict = defaultdict(list)
+    projected = 0
+    skipped = 0
 
     # loop over rows (boxes in same image)
     for idx, row in tqdm(points_df.iterrows(), total=len(points_df)):
@@ -66,16 +89,19 @@ def single_img2gis(cfg):
         points = np.vstack([center, points])
         
         # project to GIS
-        curr_poly, _ = img2gis(img_path, points, dsm, dsm_arr, cfg) # NOTE: remove depth
+        curr_poly, dist = img2gis(img_path, points, dsm, dsm_arr, cfg) 
+
+        # ERROR: failed projection, skip and report at the end
+        if curr_poly is None:
+            skipped_dict[row['img_path']].append(row['box_id'])
+            skipped += 1
+            continue
+        else: projected += 1
 
         # add to shapefile
         w.poly([curr_poly.tolist()[1:]])
-        w.record(row['id'], 'Polygon')
+        w.record(*row, dist, 'Polygon') # TODO: add elevation of box, add height (val from dsm) as Z
 
-        if cfg['centroids']:
-            w_centroid.point(*curr_poly[0])
-            w_centroid.record(row['id'], 'Point')
-                
     # close shapefile, create .prj file
     w.close()
     wkt = getWKT_PRJ(dsm_epsg)
@@ -83,12 +109,19 @@ def single_img2gis(cfg):
     prj.write(wkt) # TODO: config file for EPSG (only do this if None)
     prj.close()
 
-    # close centroid shapefile, create .prj file
-    if cfg['centroids']:
-        w.close()
-        prj = open(f"{output_file}_centroids.prj", "w")
-        prj.write(wkt)
-        prj.close()
+    # save log of skipped boxes 
+    with open(f"output/skipped_log.txt", "w") as f:
+        f.write("img_name, total_skipped, boxIDs\n")
+        for k,v in skipped_dict.items():
+            f.write(f"{k}, {len(v)}, {v}\n")
+
+    print("\n=================================")
+    print("Batch projection complete!")
+    print(f"Projected: {projected}")
+    print(f"Skipped: {skipped}")
+    print(f"(Total - {projected+skipped} boxes in {points_df['img_path'].nunique()} images)")
+    print("=================================\n")
+
 
 
 def batch_img2gis(cfg):
@@ -109,44 +142,60 @@ def batch_img2gis(cfg):
     if not os.path.exists(os.path.dirname(output_file)):
         os.makedirs(os.path.dirname(output_file))
 
-    # create output file(s) with required cols
-    w = shapefile.Writer(output_file, shapefile.POLYGON)
-    w.field('id','C','20')
-    w.field('img_path', 'C', '40')
-    w.field('box_id', 'C', '20')
-    w.field('distance_to_img_center', 'F', decimal=3)
-    if cfg['centroids']:
-        w_centroid = shapefile.Writer(output_file+'_centroids', shapefile.POINT)
-        w_centroid.field('id','C','20')
-        w_centroid.field('img_path', 'C', '40')
-        w_centroid.field('box_id', 'C', '20')
-        w_centroid.field('distance_to_img_center', 'F', '20')
+    # get column names and types from dataframe
+    defaults = {'id': ('N','20'), 'img_path':('C','80'), 'box_id': ('C','20'), 'prediction':('C','20'), 'confidence':('F','20',4)}
+    cols = []
+    for c in points_df.columns:
+        if c in defaults: cols.append((c,*defaults[c]))
+        else: cols.append((c,'C','40'))
 
+    # create output file(s) with required cols 
+    w = shapefile.Writer(output_file, shapefile.POLYGON)
+    for col in cols:
+        if col[0] == 'geometry': 
+            w.field('img_coords', 'C', '40') # geometry is a reserved header, so change field name
+        else: w.field(*col)                  # add other field normally
+    # + extra fields
+    w.field('distance_to_img_center', 'F', decimal=3)
+
+
+    # make skipped log - each line: img_id, total in this image, box_ids (list); Last line -> total in all
+    open("output/log_skipped.txt", "w")
+    skipped_dict = defaultdict(list)
+    projected = 0
+    skipped = 0
 
     # loop over rows (boxes in same image)
-    for idx, row in tqdm(points_df.iterrows(), total=len(points_df)):
+    for _, row in tqdm(points_df.iterrows(), total=len(points_df)):
         # convert points to numpy array and prepend centroid
         points = np.array(literal_eval(row['geometry']), dtype=np.uint16)
         xlim = (np.amin(points[:,0]), np.amax(points[:,0]))
         ylim = (np.amin(points[:,1]), np.amax(points[:,1]))
-        center = np.array([(xlim[0]+xlim[1])/2, (ylim[0]+ylim[1])/2]).reshape(-1,2)
+        center = np.array([(xlim[0]+xlim[1])//2, (ylim[0]+ylim[1])//2]).reshape(-1,2)
         points = np.vstack([center, points])
 
-        # get current img_path
-        img_path = f"{img_dir}/{row['img_path']}"
-        box_id = row['box_id']
+        # get current img_path to pass to img2gis()
+        if os.path.exists(row['img_path']):
+            img_path = f"{row['img_path']}"
+        else: img_path = f"{img_dir}/{row['img_path']}"
+        # remove parent path info for shapefile
+        row['img_path'] = row['img_path'].split('/')[-1]
+        row['img_path'] = row['img_path'].split('\\')[-1]
         
         # project to GIS
         curr_poly, dist = img2gis(img_path, points, dsm, dsm_arr, cfg) 
 
+        # ERROR: failed projection, skip and report at the end
+        if curr_poly is None:
+            skipped_dict[row['img_path']].append(row['box_id'])
+            skipped += 1
+            continue
+        else: projected += 1
+
         # add to shapefile
         w.poly([curr_poly.tolist()[1:]])
-        w.record(row['id'], row['img_path'], box_id, dist, 'Polygon') # TODO: add elevation of box, add height (val from dsm) as Z, add distance to image it was, + elevation as a field
+        w.record(*row, dist, 'Polygon') # TODO: add elevation of box, add height (val from dsm) as Z
 
-        if cfg['centroids']:
-            w_centroid.point(*curr_poly[0])
-            w_centroid.record(row['id'], row['img_path'], box_id, dist, 'Point')
-                
     # close shapefile, create .prj file
     w.close()
     prj = open(f"{output_file}.prj", "w")
@@ -154,12 +203,22 @@ def batch_img2gis(cfg):
     prj.write(wkt)
     prj.close()
 
-    # close centroid shapefile, create .prj file
-    if cfg['centroids']:
-        w.close()
-        prj = open(f"{output_file}_centroids.prj", "w")
-        prj.write(wkt)
-        prj.close()
+    # save log of skipped boxes 
+    with open(f"output/skipped_log.txt", "w") as f:
+        f.write("img_name, total_skipped, boxIDs\n")
+        for k,v in skipped_dict.items():
+            f.write(f"{k}, {len(v)}, {v}\n")
+
+    print("\n=================================")
+    print("Batch projection complete!")
+    print(f"Projected: {projected}")
+    print(f"Skipped: {skipped}")
+    print(f"(Total - {projected+skipped} boxes in {points_df['img_path'].nunique()} images)")
+    print("=================================\n")
+
+
+    
+
 
 
 
