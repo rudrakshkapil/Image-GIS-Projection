@@ -93,7 +93,7 @@ def single_img2gis(cfg):
 
         # ERROR: failed projection, skip and report at the end
         if curr_poly is None:
-            skipped_dict[row['img_path']].append(row['box_id'])
+            skipped_dict[img_path].append(row['box_id'])
             skipped += 1
             continue
         else: projected += 1
@@ -119,7 +119,7 @@ def single_img2gis(cfg):
     print("Batch projection complete!")
     print(f"Projected: {projected}")
     print(f"Skipped: {skipped}")
-    print(f"(Total - {projected+skipped} boxes in {points_df['img_path'].nunique()} images)")
+    print(f"(Total - {projected+skipped} boxes in single image {img_path})")
     print("=================================\n")
 
 
@@ -143,18 +143,18 @@ def batch_img2gis(cfg):
         os.makedirs(os.path.dirname(output_file))
 
     # get column names and types from dataframe
-    defaults = {'id': ('N','20'), 'img_path':('C','80'), 'box_id': ('C','20'), 'prediction':('C','20'), 'confidence':('F','20',4)}
+    defaults = {'id': ('N','20'), 'img_path':('C','160'), 'box_id': ('C','20'), 'prediction':('C','20'), 'confidence':('F','20',4)}
     cols = []
     for c in points_df.columns:
         if c in defaults: cols.append((c,*defaults[c]))
-        else: cols.append((c,'C','40'))
+        else: cols.append((c,'C','80'))
 
     # create output file(s) with required cols 
     w = shapefile.Writer(output_file, shapefile.POLYGON)
     for col in cols:
         if col[0] == 'geometry': 
-            w.field('img_coords', 'C', '40') # geometry is a reserved header, so change field name
-        else: w.field(*col)                  # add other field normally
+            w.field('img_coords', 'C', '80') # geometry is a reserved header, so change field name
+        else: w.field(*col)                  # add other fields normally
     # + extra fields
     w.field('distance_to_img_center', 'F', decimal=3)
 
@@ -178,23 +178,28 @@ def batch_img2gis(cfg):
         if os.path.exists(row['img_path']):
             img_path = f"{row['img_path']}"
         else: img_path = f"{img_dir}/{row['img_path']}"
+
         # remove parent path info for shapefile
-        row['img_path'] = row['img_path'].split('/')[-1]
-        row['img_path'] = row['img_path'].split('\\')[-1]
+        # if '/' in row['img_path']:
+        #     path_split = row['img_path'].split('/')
+        # else: path_split = row['img_path'].split('\\')
+        # row['img_path'] = path_split[-1]
+        # par_dir = "/".join(path_split[0])
+
         
         # project to GIS
         curr_poly, dist = img2gis(img_path, points, dsm, dsm_arr, cfg) 
 
-        # ERROR: failed projection, skip and report at the end
-        if curr_poly is None:
+        if curr_poly is not None:
+            # add projected geometry to shapefile with existing cols in csv
+            w.poly([curr_poly.tolist()[1:]])
+            w.record(*row, dist, 'Polygon')
+            projected += 1
+
+        # ERROR: failed projection, skip (and report log at the end)
+        else: 
             skipped_dict[row['img_path']].append(row['box_id'])
             skipped += 1
-            continue
-        else: projected += 1
-
-        # add to shapefile
-        w.poly([curr_poly.tolist()[1:]])
-        w.record(*row, dist, 'Polygon') # TODO: add elevation of box, add height (val from dsm) as Z
 
     # close shapefile, create .prj file
     w.close()
@@ -208,12 +213,14 @@ def batch_img2gis(cfg):
         f.write("img_name, total_skipped, boxIDs\n")
         for k,v in skipped_dict.items():
             f.write(f"{k}, {len(v)}, {v}\n")
+        f.write(f"\n(Total - Skipped {skipped} boxes out of {projected+skipped}")
 
     print("\n=================================")
     print("Batch projection complete!")
     print(f"Projected: {projected}")
     print(f"Skipped: {skipped}")
     print(f"(Total - {projected+skipped} boxes in {points_df['img_path'].nunique()} images)")
+    print(f"\nSaved to {output_file}.shp")
     print("=================================\n")
 
 

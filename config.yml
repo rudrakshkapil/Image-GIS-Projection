@@ -22,8 +22,7 @@ paths:
 
     # input paths for the two different 
     img2gis:   
-      points_csv: "P:/Boisvert/trial.csv" # image pixel coordinates
-      # points_csv: "examples/single/img2gis_test_points_oblique.csv" # image pixel coordinates
+      points_csv: "examples/single/img2gis_test_points_oblique.csv" # image pixel coordinates
       out_shp:    "output/img2gis"
     gis2img:
       points_shp: "examples/single/gis2img_test"            # no extension for shapefile -- UTM coordinates, will be read using geopandas after appending '.shp'
@@ -34,10 +33,10 @@ paths:
     img_dir: "examples/batch"
 
     img2gis:
-      # points_csv: "P:/Boisvert/Preds_20230816_CynthiaP1B50mm75magl85s85s.csv"  # <id,image_path(relative to img_dir),box_id,points> -- same as for single paths
-      points_csv: "P:/Boisvert/trial.csv"  # <id,image_path(relative to img_dir),box_id,points> -- same as for single paths
+      points_csv: "P:/Boisvert/Preds_20230816_CynthiaP1B50mm75magl85s85s.csv"  # <id,image_path(relative to img_dir),box_id,points> -- same as for single paths
+      # points_csv: "P:/Boisvert/trial 2.csv"  # <id,image_path(relative to img_dir),box_id,points> -- same as for single paths
       # points_csv: "examples/batch/img2gis_batch_test_points.csv"  # <id,image_path(relative to img_dir),box_id,points> -- same as for single paths
-      out_shp:    "output/img2gis_batch"
+      out_shp:    "P:/Boisvert/projection_ouput/all_projections_2"
     gis2img:
       points_shp: "examples/batch/gis2img_test"            # no extension for shapefile -- UTM coordinates, will be read using geopandas
       out_csv: "output/gis2img_batch.csv"

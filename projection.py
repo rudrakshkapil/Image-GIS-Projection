@@ -22,7 +22,7 @@ import skimage.io
 
 def img2gis(img_path:str, 
             points:np.array([np.uint16]), 
-            dsm:rasterio.DatasetReader, # output of rasterio.opnen()
+            dsm:rasterio.DatasetReader, # output of rasterio.open()
             dsm_arr:np.array,
             cfg:dict,
             full_image:bool=False
@@ -94,7 +94,9 @@ def img2gis(img_path:str,
         else: img_name = img_path.split('\\')[-1].split('.')[0] 
 
         row = df.loc[df['PhotoID'] == img_name]
-        assert len(row) > 0, 'Error! Image not found in csv file.'
+        if len(row) == 0:
+            print(f'Error! Image {img_name} not found in csv file.')
+            return None, None
 
         omega = float(row['Omega'])
         phi = float(row['Phi'])
@@ -244,7 +246,7 @@ def img2gis(img_path:str,
         dist_m_sq = (X0-curr_poly[0][0])**2 + (Y0-curr_poly[0][1]) # UTM distance between centroid and camera center
         curr_H = np.sqrt(curr_d**2 - dist_m_sq)
 
-        # calculate pixel coordinate in dsm raster
+        # calculate pixel coordinate in dsm raster (of center)
         py, px = dsm.index(curr_poly[0][0], curr_poly[0][1])
 
         # get dsm value as median in a small bxb region centered at px and py and curr_H:
