@@ -89,9 +89,10 @@ def img2gis(img_path:str,
         df = pd.read_table(cameras_csv_path, skiprows=1)
         df.columns = ['PhotoID','X','Y','Z','Omega','Phi','Kappa','r11','r12','r13','r21','r22','r23','r31','r32','r33']
 
-        if '/' in img_path:
-            img_name = img_path.split('/')[-1].split('.')[0] 
-        else: img_name = img_path.split('\\')[-1].split('.')[0] 
+        # if '/' in img_path:
+        #     img_name = img_path.split('/')[-1].split('.')[0] 
+        # else: 
+        img_name = img_path.split('\\')[-1].split('.')[0] 
 
         row = df.loc[df['PhotoID'] == img_name]
         if len(row) == 0:
@@ -243,7 +244,7 @@ def img2gis(img_path:str,
         curr_poly = -curr_d * curr_poly + np.array([X0, Y0])
 
         # calculate elevation above point in 3D world space:
-        dist_m_sq = (X0-curr_poly[0][0])**2 + (Y0-curr_poly[0][1]) # UTM distance between centroid and camera center
+        dist_m_sq = (X0-curr_poly[0][0])**2 + (Y0-curr_poly[0][1])**2 # UTM distance between centroid and camera center
         curr_H = np.sqrt(curr_d**2 - dist_m_sq)
 
         # calculate pixel coordinate in dsm raster (of center)
